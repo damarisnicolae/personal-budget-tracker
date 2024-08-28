@@ -1,0 +1,1 @@
+This is a simple web application that allows users to track their personal expenses and income.
