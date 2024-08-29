@@ -14,7 +14,7 @@ This project includes a Python-based API, a SQL schema for database structure, a
 ## Project Structure
 
 - `app.py` - The main Python file containing the Flask API.
-- `schema.sql` - The SQL schema file for setting up the database.
+- `budgetTrackerSchema.sql` - The SQL schema file for setting up the database.
 - `templates/` - Directory containing HTML files.
 
 ## Prerequisites
