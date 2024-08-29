@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Budget Tracker</title>
+</head>
+<body>
+    <div>
+
+        <a href="/postform">ADD</a> 
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    <th>Descriptions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in data %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.type }}</td>
+                    <td>{{ transaction.date }}</td>
+                    <td>{{ transaction.description }}</td>
+                    <td>
+                        <button onclick="deleteTransaction({{ transaction.id }})" id="delete-button">DELETE</button>
+                        <button onclick="updateTransaction({{ transaction.id }})" id="update-button">UPDATE</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+    <script>
+        function updateTransaction(transactionId) {
+            fetch(`/editform/${transactionId}`)
+            .then(res => {console.log(res)})
+            .catch(error => {console.log(error)})
+        }
+
+        function deleteTransaction(transactionId) {
+            fetch(`/transactions/${transactionId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+		    .then(response => console.log(response))
+		    .catch(err => console.error(err));
+        }
+    </script>
+
+</body>
+</html>

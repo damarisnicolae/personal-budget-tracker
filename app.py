@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import mysql.connector
 
 app = Flask(__name__)
@@ -23,7 +23,17 @@ def get_transactions():
     cursor.execute(query)
     transactions = cursor.fetchall()
     
-    return render_template('transactions.html', data = transactions)
+    transactions_list = []
+    for transaction in transactions:
+        transactions_list.append({
+            'id': transaction[0],
+            'amount': transaction[1],
+            'type': transaction[2],
+            'date': transaction[3].strftime('%Y-%m-%d'),
+            'description': transaction[4]
+        })
+    
+    return render_template('transactions.html', data = transactions_list)
 
 
 @app.route('/postform', methods=['GET'])
@@ -39,7 +49,7 @@ def get_editform(id):
     cursor.execute(query)
     transaction = cursor.fetchone()
     
-    return render_template('editform.html', data = transaction)
+    return render_template('editform.html', transaction = transaction)
 
 
 @app.route('/transactions', methods=['POST'])
