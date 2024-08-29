@@ -34,7 +34,7 @@ Start the Flask Server:
 ## Usage
 
 - **Viewing Transactions:**
-Access http://127.0.0.1:5000/transactions to view a list of transactions.
+Access http://127.0.0.1:5050/transactions to view a list of transactions.
 
 - **Updating Transactions:**
 Use the frontend form to update transactions. The form sends data to the backend via a PUT request to the /transactions/{id} endpoint.
