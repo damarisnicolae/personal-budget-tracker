@@ -28,8 +28,7 @@ Before running the project, ensure you have the following installed:
 
 Start the Flask Server:
 - Ensure you're in the directory containing app.py.
-- Run the Flask application:
-- **python3 app.py**
+- Run the Flask application: **python3 app.py**
 
 ## Usage
 

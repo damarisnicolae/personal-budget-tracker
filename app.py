@@ -29,16 +29,38 @@ def get_transactions():
             'id': transaction[0],
             'amount': transaction[1],
             'type': transaction[2],
-            'date': transaction[3].strftime('%Y-%m-%d'),
+            'date': transaction[3].strftime("%Y-%m-%d"),
             'description': transaction[4]
         })
+    
+    cursor.close()
+    connection.close()
     
     return render_template('transactions.html', data = transactions_list)
 
 
+@app.route('/summary', methods=['GET'])
+def summary():
+    
+    cursor = connection.cursor()
+    query = "SELECT SUM(Amount) FROM Transactions WHERE Type='income'"
+    cursor.execute(query)
+    income_sum = cursor.fetchone()[0]
+    print(income_sum)
+    print(type(income_sum))
+    
+    query2 = "SELECT SUM(Amount) FROM Transactions WHERE Type='expense'"
+    cursor.execute(query2)
+    expense_sum = cursor.fetchone()[0]
+    
+    balance = income_sum + expense_sum
+    
+    return render_template('summary.html', income_sum = income_sum, expense_sum = expense_sum, balance = balance)
+
+
 @app.route('/postform', methods=['GET'])
 def get_postform():
-    render_template('postform.html')
+    return render_template('postform.html')
     
     
 @app.route('/editform/{id}', methods=['GET'])
@@ -64,10 +86,12 @@ def add_transactions():
         return "Error: put the correct type of amount, please!"
     
     cursor = connection.cursor()
-    query = f"INSERT INTO Transactions (Amount, Type, Date, Description) VALUES ({amount}, {type}, {date}, {description})"
+    query = f"""INSERT INTO Transactions (Amount, Type, Date, Description) VALUES ({amount}, {type}, {date}, {description})"""
     cursor.execute(query)
     connection.commit()
+    cursor.close()
     connection.close()
+    
     return render_template('transactions.html')
     
 
